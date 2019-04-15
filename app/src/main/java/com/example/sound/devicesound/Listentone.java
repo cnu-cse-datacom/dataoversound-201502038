@@ -34,7 +34,6 @@ public class Listentone {
     int audioEncodig;
     boolean startFlag;
     FastFourierTransformer transform;
-    List<Integer> list = new ArrayList<>();
 
     public Listentone(){
         transform = new FastFourierTransformer(DftNormalization.STANDARD);
@@ -43,6 +42,7 @@ public class Listentone {
         mAudioRecord.startRecording();
     }
     public void PreRequest() {
+        List<Integer> list = new ArrayList<>();
         int blocksize = findPowerSize((int) (long) Math.round(interval / 2 * mSampleRate));
         //Recorder로부터 음성을 입력받는다.
         short[] buffer = new short[blocksize];
@@ -58,10 +58,26 @@ public class Listentone {
             double x = findFrequency(newArray);
             if(match(x,HANDSHAKE_START_HZ)) flag = 1;
             if(flag == 1) list.add((int)(long)(Math.round((x-START_HZ)/STEP_HZ)));
-
             if(match(x,HANDSHAKE_END_HZ))break;
         }
         Log.d("Listentone",list.toString());
+        ArrayList<Character> Result = new ArrayList<>();
+        int count = 2;
+        while (count+1 < list.size()){
+          Integer a = list.get(count);
+          int b = list.get(count+1);
+//        Log.d("Listentone",Integer.toString(a));
+//        Log.d("Listentone",Integer.toString(b));
+          int x = (a * 16) + b;
+//        Log.d("Listentone",Integer.toString(x));
+          Result.add((char)x);
+          count = count + 2;
+        }
+        String s="";
+        for (int i = 0;i < Result.size();i++){
+            s += Character.toString(Result.get(i));
+        }
+        Log.d("Listentone",s);
     }
     public boolean match(double freq1, double freq2) { //match
         return Math.abs(freq1 - freq2) < 20;
