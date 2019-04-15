@@ -60,6 +60,7 @@ public class Listentone {
             if(flag == 1) list.add((int)(long)(Math.round((x-START_HZ)/STEP_HZ)));
             if(match(x,HANDSHAKE_END_HZ))break;
         }
+        //주파수 수집완료 출력과정
         Log.d("Listentone",list.toString());
         ArrayList<Character> Result = new ArrayList<>();
         int count = 2;
@@ -120,21 +121,19 @@ public class Listentone {
         return peak_freq * mSampleRate;
     }
     private Double[] fftFreq(int length, int x){
-        double val = 1.0 / (length * x);
-        int[] results = new int[length];
-        Double[] d_results = new Double[length];
-        int N = (length-1)/2 + 1;
-        for(int i=0; i<=N; i++){
-            results[i] = i;
+        Double[] freq = new Double[length];
+        int[] val = new int[length];
+        double a = 1.0 / length;
+        for(int i =0; i<length;i++)
+        {
+            val[i] = i;
         }
-        int temp = -(length / 2);
-        for(int i=N+1; i<length; i++) {
-            results[i] = temp;
-            temp--;
+        for (int i =0;i<length;i++){
+            freq[i] = val[i] * a;
+            if(freq[i] == 0.5){
+                a = -a;
+            }
         }
-        for(int i = 0; i<length; i++){
-            d_results[i] = results[i] * val;
-        }
-        return d_results;
+        return freq;
     }
 }
