@@ -98,9 +98,7 @@ public class MainActivity extends AppCompatActivity implements ToneThread.ToneCa
 
             @Override
             public void run() {
-
                 recv_tone.PreRequest();
-
             }
         });
         Toast.makeText(MainActivity.this, "ThreadStart!", Toast.LENGTH_SHORT).show();
