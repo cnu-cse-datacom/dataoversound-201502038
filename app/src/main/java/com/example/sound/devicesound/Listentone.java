@@ -130,9 +130,10 @@ public class Listentone {
         return peak_freq * mSampleRate;
     }
     private Double[] fftFreq(int length, int x){
+        if(length % 2 != 0)length = length-1;
         Double[] freq = new Double[length];
         int[] val = new int[length];
-        double a = 1.0 / length;
+        double a = 1.0 / length * x;
         for(int i =0; i<length;i++)
         {
             val[i] = i;
