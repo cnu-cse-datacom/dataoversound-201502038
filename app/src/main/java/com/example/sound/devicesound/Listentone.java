@@ -81,7 +81,7 @@ public class Listentone {
         Log.d("Listentone",s);
     }
     public boolean match(double freq1, double freq2) { //match
-        return Math.abs(freq1 - freq2) < 20;
+        return Math.abs(freq1 - freq2) < 50;
     }
     private int findPowerSize(int round) {
         int x = 1;
@@ -121,7 +121,6 @@ public class Listentone {
         return peak_freq * mSampleRate;
     }
     private Double[] fftFreq(int length, int x){
-        if(length % 2 != 0) length = length-1;
         Double[] freq = new Double[length];
         int[] val = new int[length];
         double a = 1.0 / length;
