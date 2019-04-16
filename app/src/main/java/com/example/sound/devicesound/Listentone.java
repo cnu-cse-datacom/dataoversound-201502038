@@ -58,21 +58,30 @@ public class Listentone {
             double x = findFrequency(newArray);
             if(match(x,HANDSHAKE_START_HZ)) flag = 1;
             if(flag == 1) list.add((int)(long)(Math.round((x-START_HZ)/STEP_HZ)));
-            if(match(x,HANDSHAKE_END_HZ))break;//데이터 수집 종료
+            if(match(x,HANDSHAKE_END_HZ)) {
+                flag = 0;
+                output(list);
+                list.removeAll(list);
+              //데이터 수집 종료
+            }
         }
+
+    }
+    public void output(List<Integer> list)
+    {
         //주파수 수집완료 출력과정
         Log.d("Listentone",list.toString());
         ArrayList<Character> Result = new ArrayList<>();
         int count = 2; //시작주파수를 버리기 위한 정수
         while (count+1 < list.size()){
-          Integer a = list.get(count);
-          int b = list.get(count+1);
+            Integer a = list.get(count);
+            int b = list.get(count+1);
 //        Log.d("Listentone",Integer.toString(a));
 //        Log.d("Listentone",Integer.toString(b));
-          int x = (a * 16) + b;
+            int x = (a * 16) + b;
 //        Log.d("Listentone",Integer.toString(x));
-          Result.add((char)x);
-          count = count + 2;
+            Result.add((char)x);
+            count = count + 2;
         }
         String s="";//문자열 조합을 위한 과정
         for (int i = 0;i < Result.size();i++){
