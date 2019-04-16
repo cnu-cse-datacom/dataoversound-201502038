@@ -54,16 +54,16 @@ public class Listentone {
             double[] newArray = new double[buffer.length];
             for (int i = 0; i < buffer.length; i++) {
                 newArray[i] = (double) (buffer[i]);
-            }
+            }//데이터 수집 시작
             double x = findFrequency(newArray);
             if(match(x,HANDSHAKE_START_HZ)) flag = 1;
             if(flag == 1) list.add((int)(long)(Math.round((x-START_HZ)/STEP_HZ)));
-            if(match(x,HANDSHAKE_END_HZ))break;
+            if(match(x,HANDSHAKE_END_HZ))break;//데이터 수집 종료
         }
         //주파수 수집완료 출력과정
         Log.d("Listentone",list.toString());
         ArrayList<Character> Result = new ArrayList<>();
-        int count = 2;
+        int count = 2; //시작주파수를 버리기 위한 정수
         while (count+1 < list.size()){
           Integer a = list.get(count);
           int b = list.get(count+1);
@@ -74,7 +74,7 @@ public class Listentone {
           Result.add((char)x);
           count = count + 2;
         }
-        String s="";
+        String s="";//문자열 조합을 위한 과정
         for (int i = 0;i < Result.size();i++){
             s += Character.toString(Result.get(i));
         }
@@ -121,6 +121,7 @@ public class Listentone {
         return peak_freq * mSampleRate;
     }
     private Double[] fftFreq(int length, int x){
+        if(length % 2 != 0) length = length-1;
         Double[] freq = new Double[length];
         int[] val = new int[length];
         double a = 1.0 / length;
